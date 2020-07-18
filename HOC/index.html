@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+</head>
+
+<div id="root"></div>
+
+<script type="text/babel">
+
+    const ChildComponent = (props) => Object.keys(props).map(propName => <div>
+        {propName}: {props[propName]}
+    </div>)
+
+    // a HOC can wrap with additional JSX, but here let's do something more interesting: modify passed props
+    const WrapperHOC = (props) => {
+        const modifiedProps = {};
+        // let's think we have zero based indexes but want to display 1 based, so only for numbers
+        Object.keys(props).forEach(prop => {
+            modifiedProps[prop] = typeof props[prop] === 'number' ?
+                modifiedProps[prop] = props[prop] + 1 :
+                modifiedProps[prop] = props[prop]
+        })
+        return <ChildComponent {...modifiedProps} />
+    }
+
+    const HOCExample = () => {
+        const props = {
+            aNumber: 0,
+            aString: 'abc',
+            anotherNumber: 1
+        }
+
+        return <WrapperHOC {...props} />
+    }
+
+    ReactDOM.render(
+        <HOCExample />,
+        document.getElementById('root')
+    )
+
+</script>
+
+</html>
