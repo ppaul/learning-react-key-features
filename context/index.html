@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+</head>
+
+<div id="root"></div>
+
+<script type="text/babel">
+    const { Provider, Consumer } = React.createContext();
+
+    const ChildLevel2 = props => <div>
+        <Consumer>
+            {ctx => <div>{ctx.name}</div>}
+        </Consumer>
+    </div>;
+
+    const ChildLevel1 = () => <div>
+        <ChildLevel2 />
+    </div>;
+
+    const ProviderExample = () => {
+        const name = "A prop from the root component";
+        return <Provider value={{ name }}>
+            <ChildLevel1 />
+        </Provider>
+    }
+
+    ReactDOM.render(
+        <ProviderExample />,
+        document.getElementById('root')
+    )
+
+</script>
+
+</html>
