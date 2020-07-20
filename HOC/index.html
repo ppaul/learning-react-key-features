@@ -16,7 +16,7 @@
     </div>)
 
     // a HOC can wrap with additional JSX, but here let's do something more interesting: modify passed props
-    const WrapperHOC = (props) => {
+    function zeroToOneIndexWrapper(WrappedComponent, props) {
         const modifiedProps = {};
         // let's think we have zero based indexes but want to display 1 based, so only for numbers
         Object.keys(props).forEach(prop => {
@@ -24,7 +24,7 @@
                 modifiedProps[prop] = props[prop] + 1 :
                 modifiedProps[prop] = props[prop]
         })
-        return <ChildComponent {...modifiedProps} />
+        return <WrappedComponent {...modifiedProps} />
     }
 
     const HOCExample = () => {
@@ -34,7 +34,7 @@
             anotherNumber: 1
         }
 
-        return <WrapperHOC {...props} />
+        return zeroToOneIndexWrapper(ChildComponent, props);
     }
 
     ReactDOM.render(
