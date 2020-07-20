@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+</head>
+
+<div id="root"></div>
+
+<script type="text/babel">
+    const { useState, useEffect } = React;
+    const ReactHooksExample = () => {
+        const [count, setCount] = useState(0);
+
+        // Similar to componentDidMount and componentDidUpdate:
+        useEffect(() => {
+            // Update the document title using the browser API
+            document.title = `You clicked ${count} times`;
+        });
+
+        return (
+            <div>
+                <p>You clicked {count} times</p>
+                <button onClick={() => setCount(count + 1)}>
+                    Click me
+                </button>
+            </div>
+        );
+    }
+
+    ReactDOM.render(
+        <ReactHooksExample />,
+        document.getElementById('root')
+    )
+
+</script>
+
+</html>
