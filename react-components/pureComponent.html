@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://unpkg.com/@babel/standalone/babel.js"></script>
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+</head>
+
+<div id="root"></div>
+
+<script type="text/babel">
+
+    class MyComponent extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                counter: 0
+            }
+            this.incrementWith = (number) => () => this.setState(state => ({ counter: state.counter + number }));
+        }
+
+
+        render() {
+            console.log("Render in Component called");
+            return <div>
+                <h1>Hello from simple Component</h1>
+                <div>a prop has value {this.props.aProp}</div>
+                <div>Counter: {this.state.counter}</div>
+                <button onClick={this.incrementWith(0)}>
+                    Increment with 0
+                </button>
+                <button onClick={this.incrementWith(1)}>
+                    Increment with 1
+                </button>
+            </div>
+        }
+    }
+
+    // only type of component differs
+    class MyPureComponent extends React.PureComponent {
+        constructor(props) {
+            super(props);
+            this.state = {
+                counter: 0
+            }
+            this.incrementWith = (number) => () => this.setState(state => ({ counter: state.counter + number }));
+        }
+
+
+        render() {
+            console.log("Render in PureComponent called");
+            return <div>
+                <h1>Hello from a PureComponent</h1>
+                <div>a prop has value {this.props.aProp}</div>
+                <div>Counter: {this.state.counter}</div>
+                <button onClick={this.incrementWith(0)}>
+                    Increment with 0
+                </button>
+                <button onClick={this.incrementWith(1)}>
+                    Increment with 1
+                </button>
+            </div>
+        }
+    }
+
+
+    const ParentComponent = () => {
+        const [aProp, setAProp] = React.useState(0);
+        return <>
+            <div>A simple prop: {aProp} </div>
+            <button onClick={() => setAProp(aProp + 0)}>Increment the prop with 0 (do nothing practically)</button>
+            <button onClick={() => setAProp(aProp + 1)}>Increment the prop with 1</button>
+            <MyComponent aProp={aProp} />
+            <MyPureComponent aProp={aProp} />
+        </>;
+    }
+    ReactDOM.render(
+        <ParentComponent />,
+        document.getElementById('root')
+    )
+
+</script>
+
+</html>
